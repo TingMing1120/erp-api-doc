@@ -1025,7 +1025,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ObjectApiResponse"
+                  "$ref": "#/components/schemas/MaintenanceLogGetAllDtoPagedResponseListApiResponse"
                 }
               }
             }
@@ -2722,6 +2722,102 @@
         },
         "additionalProperties": false,
         "description": "用來傳遞用戶登入所需的帳號、密碼與裝置 Token。"
+      },
+      "MaintenanceLogGetAllDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "維護紀錄ID",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "維護專案名稱",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "維護類型 (1=預防性維護、2=修正性、3=緊急、4=系統升級、5=新需求)",
+            "format": "int32"
+          },
+          "status": {
+            "type": "integer",
+            "description": "處理狀態 (1=待處理、2=進行中、3=已完成、4=已取消)",
+            "format": "int32"
+          },
+          "issue": {
+            "type": "string",
+            "description": "問題描述",
+            "nullable": true
+          },
+          "repairDate": {
+            "type": "string",
+            "description": "維護日期 (格式: yyyy-MM-dd 或其他)",
+            "nullable": true
+          },
+          "empName": {
+            "type": "string",
+            "description": "維護人員姓名",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "維護紀錄列表資料傳輸物件"
+      },
+      "MaintenanceLogGetAllDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/MaintenanceLogGetAllDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "MaintenanceLogGetAllDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/MaintenanceLogGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
       },
       "MaintenanceLogPostDto": {
         "required": [
