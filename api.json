@@ -1,0 +1,3916 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "mosji ERP API",
+    "description": "mosji ERP API API 文件，包含各種接口的詳細資訊",
+    "version": "v1"
+  },
+  "paths": {
+    "/v1/version": {
+      "get": {
+        "tags": [
+          "(0)"
+        ],
+        "summary": "這個 API 回傳專案版本資訊與當前環境，包含專案名稱、版本號及環境名稱。",
+        "operationId": "version",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/select/employee": {
+      "get": {
+        "tags": [
+          "下拉選單"
+        ],
+        "summary": "取得員工清單選項",
+        "description": "取得所有員工的選項清單（Id / 姓名）",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectOptionDtoResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/select/employee/job": {
+      "get": {
+        "tags": [
+          "下拉選單"
+        ],
+        "summary": "取得職稱清單",
+        "description": "取得所有員工職稱的選項清單",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectOptionDtoResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/select/employee/department": {
+      "get": {
+        "tags": [
+          "下拉選單"
+        ],
+        "summary": "取得部門清單",
+        "description": "取得所有部門名稱的選項清單",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectOptionDtoResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/select/maintenance/project": {
+      "get": {
+        "tags": [
+          "下拉選單"
+        ],
+        "summary": "取得維運專案清單",
+        "description": "取得所有維運專案的選項清單",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectOptionDtoResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/select/role": {
+      "get": {
+        "tags": [
+          "下拉選單"
+        ],
+        "summary": "取得角色清單",
+        "description": "取得所有角色的選項清單",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SelectOptionDtoResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/role": {
+      "get": {
+        "tags": [
+          "角色管理"
+        ],
+        "summary": "查詢角色清單",
+        "description": "根據篩選條件查詢所有角色\r\n\r\n支援的查詢參數：\r\n- `Status`：角色狀態，1 表示啟用，2 表示不啟用\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleGetAllDtoPagedResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "角色管理"
+        ],
+        "summary": "新增角色",
+        "description": "建立一筆新的角色資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolePostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/role/{id}": {
+      "get": {
+        "tags": [
+          "角色管理"
+        ],
+        "summary": "查詢角色",
+        "description": "根據角色 ID 查詢角色詳細資訊",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "角色管理"
+        ],
+        "summary": "更新角色",
+        "description": "根據 ID 更新角色資訊",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RolePutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "角色管理"
+        ],
+        "summary": "刪除角色",
+        "description": "根據角色 ID 刪除角色資料",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employee": {
+      "get": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "查詢員工清單",
+        "description": "根據篩選條件取得所有員工的清單\r\n\r\n支援的查詢參數：\r\n- `Title`：員工職位（例如：工程師、主管等）\r\n- `Department`：員工所屬部門（例如：人資部、技術部等）\r\n- `Status`：員工狀態（1: 在職, 2: 離職, 3: 停職）\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "title",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "department",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeGetAllDtoPagedResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "新增員工",
+        "description": "建立新的員工資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeePostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "更新員工",
+        "description": "根據 ID 更新員工資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeePutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employee/{id}": {
+      "get": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "查詢單一員工",
+        "description": "根據 ID 查詢特定員工",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "刪除員工",
+        "description": "根據 ID 刪除員工資料",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/employee/self": {
+      "get": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "查詢登入者資料",
+        "description": "取得目前登入員工的基本資料",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmployeeGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "員工管理"
+        ],
+        "summary": "更新自己的資料",
+        "description": "更新目前登入使用者的員工資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EmployeePutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/property": {
+      "get": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "查詢資產清單",
+        "description": "根據篩選條件查詢所有資產\r\n\r\n支援的查詢參數：\r\n- `Category`：財產類別代碼（1=電腦設備, 2=電腦周邊, 3=機器設備, 4=家具, 5=其他）\r\n- `Status`：財產狀態（例如：1=使用中、2=維修中、3=報廢）\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyGetAllDtoPagedResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "新增資產",
+        "description": "建立新的資產資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyPostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/property/{id}": {
+      "get": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "查詢單一資產",
+        "description": "根據 ID 取得指定資產的詳細資料",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PropertyGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "更新資產",
+        "description": "根據 ID 更新指定資產的內容",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PropertyPutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "刪除資產",
+        "description": "根據 ID 刪除指定資產",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/property/export": {
+      "get": {
+        "tags": [
+          "財產管理"
+        ],
+        "summary": "匯出資產",
+        "description": "將資產資料匯出為 csv",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/sidebar": {
+      "post": {
+        "tags": [
+          "側邊欄權限"
+        ],
+        "summary": "取得側邊欄權限",
+        "description": "根據登入者角色，取得其可使用功能的清單（例如：員工管理、財產管理）",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmpRolePermissionDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/login": {
+      "post": {
+        "tags": [
+          "登入"
+        ],
+        "summary": "使用者登入",
+        "description": "根據使用者驗證並回傳 JWT Token",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoginDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TokenResponseApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      }
+    },
+    "/api/maintenance/log": {
+      "get": {
+        "tags": [
+          "維運紀錄"
+        ],
+        "summary": "查詢維運紀錄清單",
+        "description": "根據篩選條件查詢所有維運紀錄\r\n\r\n支援的查詢參數：\r\n- `Category`：維護類型（1=預防性維護、2=修正性、3=緊急、4=系統升級、5=新需求）\r\n- `Status`：處理狀態（1=待處理、2=進行中、3=已完成、4=已取消）\r\n- `RepairDate`：維護日期，格式為 yyyy-MM-dd\r\n- `ProjectId`：維護專案 ID\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "repairDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "projectId",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "維運紀錄"
+        ],
+        "summary": "新增維運紀錄",
+        "description": "建立一筆新的維運紀錄資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceLogPostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "維運紀錄"
+        ],
+        "summary": "更新維運紀錄",
+        "description": "根據提供的資料更新維運紀錄",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenanceLogPutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/maintenance/log/{id}": {
+      "get": {
+        "tags": [
+          "維運紀錄"
+        ],
+        "summary": "查詢單一維運紀錄",
+        "description": "根據 ID 查詢維運紀錄詳情",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "維運紀錄"
+        ],
+        "summary": "刪除維運紀錄",
+        "description": "根據 ID 刪除指定的維運紀錄",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/maintenance": {
+      "post": {
+        "tags": [
+          "維運專案"
+        ],
+        "summary": "新增維運專案",
+        "description": "建立一筆新的維運專案資料",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenancePostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "維運專案"
+        ],
+        "summary": "更新維運專案",
+        "description": "根據提供的資料更新維運專案",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MaintenancePutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/maintenance/{id}": {
+      "delete": {
+        "tags": [
+          "維運專案"
+        ],
+        "summary": "刪除維運專案",
+        "description": "根據 ID 刪除指定的維運專案",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave": {
+      "get": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "查詢請假清單",
+        "description": "根據篩選條件查詢所有員工的請假資料\r\n\r\n支援的查詢參數：\r\n- `Category`：請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）\r\n- `Status`：審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）\r\n- `ApplicationDate`：申請日期（格式為 yyyy-MM-dd）\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "applicationDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveGetAllDtoPagedResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "新增請假單",
+        "description": "員工提交請假單",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePostDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/self": {
+      "get": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "查詢自己的請假清單",
+        "description": "查詢目前登入員工的請假資料\r\n\r\n支援的查詢參數：\r\n- `Category`：請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）\r\n- `Status`：審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）\r\n- `ApplicationDate`：申請日期（格式為 yyyy-MM-dd）\r\n- `Keyword`：關鍵字查詢，用於模糊搜尋名稱、代碼等欄位\r\n- `SortBy`：指定排序欄位名稱，例如：Name、CreatedDate 等\r\n- `SortOrder`：排序方向，可為 asc（遞增）或 desc（遞減）\r\n- `Page`：當前頁數（從 1 開始），預設為 1 （預設值: 1）\r\n- `Limit`：每頁資料筆數，預設為 20 （預設值: 20）",
+        "parameters": [
+          {
+            "name": "category",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "applicationDate",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "keyword",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 20
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveGetByEmpIdDtoPagedResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "更新自己的請假單",
+        "description": "員工修改自己尚未審核的請假單",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePutSelfDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/{id}": {
+      "get": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "查詢請假單",
+        "description": "根據請假單 ID 查詢請假資料",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "刪除請假單",
+        "description": "主管根據 ID 刪除請假單",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/self/{id}": {
+      "get": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "查詢自己的請假單",
+        "description": "查詢目前登入員工的某一筆請假單",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LeaveGetOneDtoApiResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "刪除自己的請假單",
+        "description": "員工刪除自己的請假單（僅限尚未審核）",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/review": {
+      "put": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "審核請假單",
+        "description": "主管審核請假單內容",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePutDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/leave/self/cancel": {
+      "put": {
+        "tags": [
+          "請假管理"
+        ],
+        "summary": "撤銷自己的請假單",
+        "description": "員工撤銷自己尚未審核的請假單",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LeavePutSelfStatusDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ObjectApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/upload": {
+      "post": {
+        "tags": [
+          "檔案上傳"
+        ],
+        "summary": "上傳檔案",
+        "description": "使用者上傳多筆檔案的 endpoint",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadManyDto"
+              }
+            },
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadManyDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileResponseResponseListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "EmpRolePermissionDto": {
+        "type": "object",
+        "properties": {
+          "hasAddEmp": {
+            "type": "boolean",
+            "description": "是否可新增員工資料"
+          },
+          "hasEditEmp": {
+            "type": "boolean",
+            "description": "是否可編輯員工資料"
+          },
+          "hasDeleteEmp": {
+            "type": "boolean",
+            "description": "是否可刪除員工資料"
+          },
+          "hasReadEmp": {
+            "type": "boolean",
+            "description": "是否可讀取員工列表資料"
+          },
+          "hasReadEmpInfo": {
+            "type": "boolean",
+            "description": "是否可查看其他員工詳情"
+          },
+          "hasAddProperty": {
+            "type": "boolean",
+            "description": "是否可新增財產資料"
+          },
+          "hasEditProperty": {
+            "type": "boolean",
+            "description": "是否可編輯財產資料"
+          },
+          "hasDeleteProperty": {
+            "type": "boolean",
+            "description": "是否可刪除財產資料"
+          },
+          "hasReadProperty": {
+            "type": "boolean",
+            "description": "是否可讀取財產列表資料"
+          },
+          "hasExportProperty": {
+            "type": "boolean",
+            "description": "是否可匯出財產資料"
+          },
+          "hasAddLeave": {
+            "type": "boolean",
+            "description": "是否可新增請假資料"
+          },
+          "hasEditLeave": {
+            "type": "boolean",
+            "description": "是否可編輯請假資料"
+          },
+          "hasDeleteLeave": {
+            "type": "boolean",
+            "description": "是否可刪除請假資料"
+          },
+          "hasReadLeave": {
+            "type": "boolean",
+            "description": "是否可查詢請假資料"
+          },
+          "hasReviewLeave": {
+            "type": "boolean",
+            "description": "是否可審核請假資料"
+          },
+          "hasAddMaintenance": {
+            "type": "boolean",
+            "description": "是否可新增維運專案資料"
+          },
+          "hasEditMaintenance": {
+            "type": "boolean",
+            "description": "是否可編輯維運專案資料"
+          },
+          "hasDeleteMaintenance": {
+            "type": "boolean",
+            "description": "是否可刪除維運專案資料"
+          },
+          "hasReadMaintenance": {
+            "type": "boolean",
+            "description": "是否可查詢維運專案資料"
+          },
+          "hasAddMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可新增維運紀錄"
+          },
+          "hasEditMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可編輯維運紀錄"
+          },
+          "hasDeleteMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可刪除維運紀錄"
+          },
+          "hasReadMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可查詢維運紀錄"
+          },
+          "hasAddRole": {
+            "type": "boolean",
+            "description": "是否可新增角色"
+          },
+          "hasEditRole": {
+            "type": "boolean",
+            "description": "是否可編輯角色"
+          },
+          "hasDeleteRole": {
+            "type": "boolean",
+            "description": "是否可刪除角色"
+          },
+          "hasReadRole": {
+            "type": "boolean",
+            "description": "是否可查看角色列表"
+          }
+        },
+        "additionalProperties": false,
+        "description": "員工角色權限資訊。"
+      },
+      "EmpRolePermissionDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/EmpRolePermissionDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "EmployeeGetAllDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "員工主鍵 ID。",
+            "format": "int32"
+          },
+          "number": {
+            "type": "string",
+            "description": "員工編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "員工姓名。",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "description": "所屬部門名稱。",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "職稱名稱。",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "員工狀態（1: 在職, 2: 離職, 3: 停職）",
+            "format": "int32"
+          },
+          "hireDate": {
+            "type": "string",
+            "description": "入職日期（格式為字串）。",
+            "nullable": true
+          },
+          "resignDate": {
+            "type": "string",
+            "description": "離職日期（格式為字串）。",
+            "nullable": true
+          },
+          "roleName": {
+            "type": "string",
+            "description": "角色名稱",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於取得員工清單時的資料傳輸物件 (DTO)。"
+      },
+      "EmployeeGetAllDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/EmployeeGetAllDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "EmployeeGetAllDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/EmployeeGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "EmployeeGetOneDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "員工主鍵 ID。",
+            "format": "int32"
+          },
+          "number": {
+            "type": "string",
+            "description": "員工編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "員工姓名。",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "description": "所屬部門名稱。",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "職稱名稱。",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "員工狀態（1: 在職, 2: 離職, 3: 停職）",
+            "format": "int32"
+          },
+          "hireDate": {
+            "type": "string",
+            "description": "入職日期（格式為字串）。",
+            "nullable": true
+          },
+          "resignDate": {
+            "type": "string",
+            "description": "離職日期（格式為字串）。",
+            "nullable": true
+          },
+          "roleId": {
+            "type": "integer",
+            "description": "角色 ID，對應系統中的角色。",
+            "format": "int32"
+          },
+          "remark": {
+            "type": "string",
+            "description": "備註或補充說明。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於取得單一員工詳細資料的資料傳輸物件 (DTO)。"
+      },
+      "EmployeeGetOneDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/EmployeeGetOneDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "EmployeePostDto": {
+        "required": [
+          "email",
+          "hireDate",
+          "name",
+          "number",
+          "roleId",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "員工編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "員工姓名。",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "電子郵件地址。",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "電話號碼。",
+            "nullable": true
+          },
+          "hireDate": {
+            "type": "string",
+            "description": "入職日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "description": "生日（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "description": "居住地址。",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "description": "所屬部門。",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "職稱。",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "員工狀態（1: 在職, 2: 離職, 3: 停職）",
+            "format": "int32"
+          },
+          "roleId": {
+            "type": "integer",
+            "description": "所屬角色 ID。",
+            "format": "int32"
+          },
+          "note": {
+            "type": "string",
+            "description": "備註。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於新增員工時的資料傳輸物件 (DTO)，所有欄位皆為選填，由前端決定是否提供。"
+      },
+      "EmployeePutDto": {
+        "required": [
+          "email",
+          "hireDate",
+          "id",
+          "name",
+          "number",
+          "roleId",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "員工編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "員工姓名。",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "description": "電子郵件地址。",
+            "nullable": true
+          },
+          "phone": {
+            "type": "string",
+            "description": "電話號碼。",
+            "nullable": true
+          },
+          "hireDate": {
+            "type": "string",
+            "description": "入職日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "birthday": {
+            "type": "string",
+            "description": "生日（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "address": {
+            "type": "string",
+            "description": "居住地址。",
+            "nullable": true
+          },
+          "department": {
+            "type": "string",
+            "description": "所屬部門。",
+            "nullable": true
+          },
+          "title": {
+            "type": "string",
+            "description": "職稱。",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "員工狀態（1: 在職, 2: 離職, 3: 停職）",
+            "format": "int32"
+          },
+          "roleId": {
+            "type": "integer",
+            "description": "所屬角色 ID。",
+            "format": "int32"
+          },
+          "note": {
+            "type": "string",
+            "description": "備註。",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "員工主鍵 ID，用於識別要更新的員工資料。",
+            "format": "int32"
+          },
+          "resignDate": {
+            "type": "string",
+            "description": "離職日期（格式為 yyyy-MM-dd，若尚未離職可不填）。\r\n若提供此欄位，將更新離職時間。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於修改員工資料的資料傳輸物件 (DTO)，所有欄位皆為可選，僅更新傳入的欄位。"
+      },
+      "FileResponse": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "公開 URL",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "檔案的原始名稱（包含副檔名）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "表示單一檔案的回應資料，用於檔案上傳或取得檔案列表。"
+      },
+      "FileResponseResponseList": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "資料回應物件，封裝列表資料。"
+      },
+      "FileResponseResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/FileResponseResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "LeaveGetAllDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          },
+          "category": {
+            "type": "integer",
+            "description": "請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）。",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "請假開始日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "請假結束日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "day": {
+            "type": "number",
+            "description": "請假總天數（不含時數）。",
+            "format": "double"
+          },
+          "hours": {
+            "type": "number",
+            "description": "請假總時數（不含天數）。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）。",
+            "format": "int32"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "上傳的附件清單。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "申請人姓名。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "請假單清單項目的資料 DTO。"
+      },
+      "LeaveGetAllDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeaveGetAllDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "LeaveGetAllDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LeaveGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "LeaveGetByEmpIdDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          },
+          "category": {
+            "type": "integer",
+            "description": "請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）。",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "請假開始日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "請假結束日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "day": {
+            "type": "number",
+            "description": "請假總天數（不含時數）。",
+            "format": "double"
+          },
+          "hours": {
+            "type": "number",
+            "description": "請假總時數（不含天數）。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）。",
+            "format": "int32"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "上傳的附件清單。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "審核人員姓名。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "根據員工 ID 查詢請假單所回傳的資料 DTO。"
+      },
+      "LeaveGetByEmpIdDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LeaveGetByEmpIdDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "LeaveGetByEmpIdDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LeaveGetByEmpIdDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "LeaveGetOneDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          },
+          "empName": {
+            "type": "string",
+            "description": "申請人姓名。",
+            "nullable": true
+          },
+          "reviewName": {
+            "type": "string",
+            "description": "審核人姓名。",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）。",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "請假開始日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "請假結束日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "day": {
+            "type": "number",
+            "description": "請假天數。",
+            "format": "double"
+          },
+          "hours": {
+            "type": "number",
+            "description": "請假時數。",
+            "format": "double"
+          },
+          "note": {
+            "type": "string",
+            "description": "備註內容。",
+            "nullable": true
+          },
+          "status": {
+            "type": "integer",
+            "description": "審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）。",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string",
+            "description": "審核意見。",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件清單。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "請假單詳細資料 DTO，用於顯示單一請假申請的完整資訊。"
+      },
+      "LeaveGetOneDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/LeaveGetOneDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "LeavePostDto": {
+        "required": [
+          "category",
+          "day",
+          "endDate",
+          "hours",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "integer",
+            "description": "請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）。",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "請假開始日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "請假結束日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "day": {
+            "type": "number",
+            "description": "請假天數（整數天數，不含時數）。",
+            "format": "double"
+          },
+          "hours": {
+            "type": "number",
+            "description": "請假時數（整數時數，不含天數）。",
+            "format": "double"
+          },
+          "note": {
+            "type": "string",
+            "description": "備註說明（可選填）。",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件清單（上傳的檔案資訊）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於新增請假單的資料傳輸物件 (DTO)。"
+      },
+      "LeavePutDto": {
+        "required": [
+          "id",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          },
+          "status": {
+            "type": "integer",
+            "description": "新的審核狀態（1=待審核, 2=已同意, 3=已拒絕, 4=已撤銷）。",
+            "format": "int32"
+          },
+          "comment": {
+            "type": "string",
+            "description": "審核意見（可選填）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "請假單更新 DTO，用於更新審核狀態與審核意見。"
+      },
+      "LeavePutSelfDto": {
+        "required": [
+          "category",
+          "day",
+          "endDate",
+          "hours",
+          "id",
+          "startDate"
+        ],
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "integer",
+            "description": "請假類別（1=年假, 2=病假, 3=事假, 4=產假, 5=陪產假, 6=喪假, 7=婚假, 8=補休）。",
+            "format": "int32"
+          },
+          "startDate": {
+            "type": "string",
+            "description": "請假開始日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "endDate": {
+            "type": "string",
+            "description": "請假結束日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "day": {
+            "type": "number",
+            "description": "請假天數（整數天數，不含時數）。",
+            "format": "double"
+          },
+          "hours": {
+            "type": "number",
+            "description": "請假時數（整數時數，不含天數）。",
+            "format": "double"
+          },
+          "note": {
+            "type": "string",
+            "description": "備註說明（可選填）。",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件清單（上傳的檔案資訊）。",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "請假單更新 DTO。"
+      },
+      "LeavePutSelfStatusDto": {
+        "required": [
+          "id"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "請假單 ID。",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "請假單更新 DTO。"
+      },
+      "LoginDto": {
+        "required": [
+          "idToken"
+        ],
+        "type": "object",
+        "properties": {
+          "idToken": {
+            "type": "string",
+            "description": "使用者的帳號。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用來傳遞用戶登入所需的帳號、密碼與裝置 Token。"
+      },
+      "MaintenanceLogPostDto": {
+        "required": [
+          "category",
+          "content",
+          "empId",
+          "issue",
+          "projectId",
+          "repairDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "integer",
+            "description": "維護專案ID",
+            "format": "int32"
+          },
+          "category": {
+            "type": "integer",
+            "description": "維護類型",
+            "format": "int32"
+          },
+          "status": {
+            "type": "integer",
+            "description": "處理狀態",
+            "format": "int32"
+          },
+          "repairDate": {
+            "type": "string",
+            "description": "維護日期 (格式: yyyy-MM-dd 或其他)",
+            "nullable": true
+          },
+          "issue": {
+            "type": "string",
+            "description": "問題描述",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "維護內容",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件檔案列表",
+            "nullable": true
+          },
+          "empId": {
+            "type": "integer",
+            "description": "維護人員ID",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "維護紀錄新增資料傳輸物件"
+      },
+      "MaintenanceLogPutDto": {
+        "required": [
+          "category",
+          "content",
+          "empId",
+          "id",
+          "issue",
+          "projectId",
+          "repairDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "projectId": {
+            "type": "integer",
+            "description": "維護專案ID",
+            "format": "int32"
+          },
+          "category": {
+            "type": "integer",
+            "description": "維護類型",
+            "format": "int32"
+          },
+          "status": {
+            "type": "integer",
+            "description": "處理狀態",
+            "format": "int32"
+          },
+          "repairDate": {
+            "type": "string",
+            "description": "維護日期 (格式: yyyy-MM-dd 或其他)",
+            "nullable": true
+          },
+          "issue": {
+            "type": "string",
+            "description": "問題描述",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "維護內容",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件檔案列表",
+            "nullable": true
+          },
+          "empId": {
+            "type": "integer",
+            "description": "維護人員ID",
+            "format": "int32"
+          },
+          "id": {
+            "type": "integer",
+            "description": "維護紀錄ID",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "維護紀錄更新資料傳輸物件，繼承新增資料"
+      },
+      "MaintenancePostDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "維護專案名稱，必填。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於新增維護專案的資料傳輸物件。"
+      },
+      "MaintenancePutDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "維護專案名稱，必填。",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "維護專案的唯一識別 Id。",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於更新維護專案的資料傳輸物件，繼承自 MaintenancePostDto 並包含 Id。"
+      },
+      "ObjectApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "description": "回傳資料",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "PropertyGetAllDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "流水號",
+            "format": "int32"
+          },
+          "number": {
+            "type": "string",
+            "description": "財產編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "財產名稱。",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "財產類別代碼（1=電腦設備, 2=電腦周邊, 3=機器設備, 4=家具, 5=其他）。",
+            "format": "int32"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "description": "購買日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "money": {
+            "type": "number",
+            "description": "財產價值。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "財產狀態（例如：使用中、維修中、報廢）。",
+            "format": "int32"
+          },
+          "empName": {
+            "type": "string",
+            "description": "使用者姓名（員工）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於取得財產清單的資料傳輸物件 (DTO)。"
+      },
+      "PropertyGetAllDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PropertyGetAllDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "PropertyGetAllDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PropertyGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "PropertyGetOneDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "財產主鍵 ID。",
+            "format": "int32"
+          },
+          "number": {
+            "type": "string",
+            "description": "財產編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "財產名稱。",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "財產類別代碼（1=電腦設備, 2=電腦周邊, 3=機器設備, 4=家具, 5=其他）。",
+            "format": "int32"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "description": "購買日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "money": {
+            "type": "number",
+            "description": "財產價值。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "財產狀態（例如：使用中、維修中、報廢）。",
+            "format": "int32"
+          },
+          "empId": {
+            "type": "integer",
+            "description": "使用者員工 ID。",
+            "format": "int32"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "財產相關檔案清單（例如：照片、文件等）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於取得單筆財產詳細資料的資料傳輸物件 (DTO)。"
+      },
+      "PropertyGetOneDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/PropertyGetOneDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "PropertyPostDto": {
+        "required": [
+          "category",
+          "empId",
+          "money",
+          "name",
+          "number",
+          "purchaseDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "財產編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "財產名稱。",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "財產類別代碼（1=電腦設備, 2=電腦周邊, 3=機器設備, 4=家具, 5=其他）。",
+            "format": "int32"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "description": "購買日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "money": {
+            "type": "number",
+            "description": "財產價值。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "財產狀態（例如：使用中、維修中、報廢）。",
+            "format": "int32"
+          },
+          "empId": {
+            "type": "integer",
+            "description": "使用者員工 ID。",
+            "format": "int32"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "財產相關檔案清單（例如：照片、文件等）。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PropertyPutDto": {
+        "required": [
+          "category",
+          "empId",
+          "money",
+          "name",
+          "number",
+          "purchaseDate",
+          "status"
+        ],
+        "type": "object",
+        "properties": {
+          "number": {
+            "type": "string",
+            "description": "財產編號。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "財產名稱。",
+            "nullable": true
+          },
+          "category": {
+            "type": "integer",
+            "description": "財產類別代碼（1=電腦設備, 2=電腦周邊, 3=機器設備, 4=家具, 5=其他）。",
+            "format": "int32"
+          },
+          "purchaseDate": {
+            "type": "string",
+            "description": "購買日期（格式為 yyyy-MM-dd）。",
+            "nullable": true
+          },
+          "money": {
+            "type": "number",
+            "description": "財產價值。",
+            "format": "double"
+          },
+          "status": {
+            "type": "integer",
+            "description": "財產狀態（例如：使用中、維修中、報廢）。",
+            "format": "int32"
+          },
+          "empId": {
+            "type": "integer",
+            "description": "使用者員工 ID。",
+            "format": "int32"
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "財產相關檔案清單（例如：照片、文件等）。",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "財產主鍵 ID。",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleGetAllDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "角色 ID。",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "角色名稱。",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "角色描述。",
+            "nullable": true
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "description": "是否啟用角色。"
+          },
+          "createDate": {
+            "type": "string",
+            "description": "建立日期（格式化後的字串）。",
+            "nullable": true
+          },
+          "tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "權限標籤清單（例如包含哪些模組的使用權限）。",
+            "nullable": true
+          },
+          "lastModifiedAt": {
+            "type": "string",
+            "description": "最近異動時間",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "description": "角色清單資料 DTO，用於顯示角色基本資訊與狀態。"
+      },
+      "RoleGetAllDtoPagedResponseList": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "description": "目前的頁碼（從 1 開始）。",
+            "format": "int32"
+          },
+          "totalPage": {
+            "type": "integer",
+            "description": "總頁數，根據資料總筆數與每頁筆數計算得出。",
+            "format": "int32"
+          },
+          "totalCount": {
+            "type": "integer",
+            "description": "總資料筆數，不分頁的全部資料數量。",
+            "format": "int32"
+          },
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleGetAllDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "分頁資料回應物件，封裝列表資料及分頁相關資訊。"
+      },
+      "RoleGetAllDtoPagedResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RoleGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "RoleGetOneDto": {
+        "type": "object",
+        "properties": {
+          "hasAddEmp": {
+            "type": "boolean",
+            "description": "是否可新增員工資料"
+          },
+          "hasEditEmp": {
+            "type": "boolean",
+            "description": "是否可編輯員工資料"
+          },
+          "hasDeleteEmp": {
+            "type": "boolean",
+            "description": "是否可刪除員工資料"
+          },
+          "hasReadEmp": {
+            "type": "boolean",
+            "description": "是否可讀取員工列表資料"
+          },
+          "hasReadEmpInfo": {
+            "type": "boolean",
+            "description": "是否可查看其他員工詳情"
+          },
+          "hasAddProperty": {
+            "type": "boolean",
+            "description": "是否可新增財產資料"
+          },
+          "hasEditProperty": {
+            "type": "boolean",
+            "description": "是否可編輯財產資料"
+          },
+          "hasDeleteProperty": {
+            "type": "boolean",
+            "description": "是否可刪除財產資料"
+          },
+          "hasReadProperty": {
+            "type": "boolean",
+            "description": "是否可讀取財產列表資料"
+          },
+          "hasExportProperty": {
+            "type": "boolean",
+            "description": "是否可匯出財產資料"
+          },
+          "hasAddLeave": {
+            "type": "boolean",
+            "description": "是否可新增請假資料"
+          },
+          "hasEditLeave": {
+            "type": "boolean",
+            "description": "是否可編輯請假資料"
+          },
+          "hasDeleteLeave": {
+            "type": "boolean",
+            "description": "是否可刪除請假資料"
+          },
+          "hasReadLeave": {
+            "type": "boolean",
+            "description": "是否可查詢請假資料"
+          },
+          "hasReviewLeave": {
+            "type": "boolean",
+            "description": "是否可審核請假資料"
+          },
+          "hasAddMaintenance": {
+            "type": "boolean",
+            "description": "是否可新增維運專案資料"
+          },
+          "hasEditMaintenance": {
+            "type": "boolean",
+            "description": "是否可編輯維運專案資料"
+          },
+          "hasDeleteMaintenance": {
+            "type": "boolean",
+            "description": "是否可刪除維運專案資料"
+          },
+          "hasReadMaintenance": {
+            "type": "boolean",
+            "description": "是否可查詢維運專案資料"
+          },
+          "hasAddMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可新增維運紀錄"
+          },
+          "hasEditMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可編輯維運紀錄"
+          },
+          "hasDeleteMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可刪除維運紀錄"
+          },
+          "hasReadMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可查詢維運紀錄"
+          },
+          "hasAddRole": {
+            "type": "boolean",
+            "description": "是否可新增角色"
+          },
+          "hasEditRole": {
+            "type": "boolean",
+            "description": "是否可編輯角色"
+          },
+          "hasDeleteRole": {
+            "type": "boolean",
+            "description": "是否可刪除角色"
+          },
+          "hasReadRole": {
+            "type": "boolean",
+            "description": "是否可查看角色列表"
+          },
+          "id": {
+            "type": "integer",
+            "description": "角色主鍵 ID",
+            "format": "int32"
+          },
+          "name": {
+            "type": "string",
+            "description": "角色名稱",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "角色描述",
+            "nullable": true
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "description": "角色是否啟用"
+          }
+        },
+        "additionalProperties": false,
+        "description": "單一角色詳細資料 DTO。"
+      },
+      "RoleGetOneDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/RoleGetOneDto"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "RolePostDto": {
+        "required": [
+          "isEnabled",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "角色名稱。",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "角色描述。",
+            "nullable": true
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "description": "是否啟用角色。"
+          },
+          "hasAddEmp": {
+            "type": "boolean",
+            "description": "是否可新增員工資料",
+            "nullable": true
+          },
+          "hasEditEmp": {
+            "type": "boolean",
+            "description": "是否可編輯員工資料",
+            "nullable": true
+          },
+          "hasDeleteEmp": {
+            "type": "boolean",
+            "description": "是否可刪除員工資料",
+            "nullable": true
+          },
+          "hasReadEmp": {
+            "type": "boolean",
+            "description": "是否可讀取員工列表資料",
+            "nullable": true
+          },
+          "hasReadEmpInfo": {
+            "type": "boolean",
+            "description": "是否可查看其他員工詳情",
+            "nullable": true
+          },
+          "hasAddProperty": {
+            "type": "boolean",
+            "description": "是否可新增財產資料",
+            "nullable": true
+          },
+          "hasEditProperty": {
+            "type": "boolean",
+            "description": "是否可編輯財產資料",
+            "nullable": true
+          },
+          "hasDeleteProperty": {
+            "type": "boolean",
+            "description": "是否可刪除財產資料",
+            "nullable": true
+          },
+          "hasReadProperty": {
+            "type": "boolean",
+            "description": "是否可讀取財產列表資料",
+            "nullable": true
+          },
+          "hasExportProperty": {
+            "type": "boolean",
+            "description": "是否可匯出財產資料",
+            "nullable": true
+          },
+          "hasAddLeave": {
+            "type": "boolean",
+            "description": "是否可新增請假資料",
+            "nullable": true
+          },
+          "hasEditLeave": {
+            "type": "boolean",
+            "description": "是否可編輯請假資料",
+            "nullable": true
+          },
+          "hasDeleteLeave": {
+            "type": "boolean",
+            "description": "是否可刪除請假資料",
+            "nullable": true
+          },
+          "hasReadLeave": {
+            "type": "boolean",
+            "description": "是否可查詢請假資料",
+            "nullable": true
+          },
+          "hasReviewLeave": {
+            "type": "boolean",
+            "description": "是否可審核請假資料",
+            "nullable": true
+          },
+          "hasAddMaintenance": {
+            "type": "boolean",
+            "description": "是否可新增維運專案資料",
+            "nullable": true
+          },
+          "hasEditMaintenance": {
+            "type": "boolean",
+            "description": "是否可編輯維運專案資料",
+            "nullable": true
+          },
+          "hasDeleteMaintenance": {
+            "type": "boolean",
+            "description": "是否可刪除維運專案資料",
+            "nullable": true
+          },
+          "hasReadMaintenance": {
+            "type": "boolean",
+            "description": "是否可查詢維運專案資料",
+            "nullable": true
+          },
+          "hasAddMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可新增維運紀錄",
+            "nullable": true
+          },
+          "hasEditMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可編輯維運紀錄",
+            "nullable": true
+          },
+          "hasDeleteMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可刪除維運紀錄",
+            "nullable": true
+          },
+          "hasReadMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可查詢維運紀錄",
+            "nullable": true
+          },
+          "hasAddRole": {
+            "type": "boolean",
+            "description": "是否可新增角色",
+            "nullable": true
+          },
+          "hasEditRole": {
+            "type": "boolean",
+            "description": "是否可編輯角色",
+            "nullable": true
+          },
+          "hasDeleteRole": {
+            "type": "boolean",
+            "description": "是否可刪除角色",
+            "nullable": true
+          },
+          "hasReadRole": {
+            "type": "boolean",
+            "description": "是否可查看角色列表",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RolePutDto": {
+        "required": [
+          "id",
+          "isEnabled",
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "角色名稱。",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "description": "角色描述。",
+            "nullable": true
+          },
+          "isEnabled": {
+            "type": "boolean",
+            "description": "是否啟用角色。"
+          },
+          "hasAddEmp": {
+            "type": "boolean",
+            "description": "是否可新增員工資料",
+            "nullable": true
+          },
+          "hasEditEmp": {
+            "type": "boolean",
+            "description": "是否可編輯員工資料",
+            "nullable": true
+          },
+          "hasDeleteEmp": {
+            "type": "boolean",
+            "description": "是否可刪除員工資料",
+            "nullable": true
+          },
+          "hasReadEmp": {
+            "type": "boolean",
+            "description": "是否可讀取員工列表資料",
+            "nullable": true
+          },
+          "hasReadEmpInfo": {
+            "type": "boolean",
+            "description": "是否可查看其他員工詳情",
+            "nullable": true
+          },
+          "hasAddProperty": {
+            "type": "boolean",
+            "description": "是否可新增財產資料",
+            "nullable": true
+          },
+          "hasEditProperty": {
+            "type": "boolean",
+            "description": "是否可編輯財產資料",
+            "nullable": true
+          },
+          "hasDeleteProperty": {
+            "type": "boolean",
+            "description": "是否可刪除財產資料",
+            "nullable": true
+          },
+          "hasReadProperty": {
+            "type": "boolean",
+            "description": "是否可讀取財產列表資料",
+            "nullable": true
+          },
+          "hasExportProperty": {
+            "type": "boolean",
+            "description": "是否可匯出財產資料",
+            "nullable": true
+          },
+          "hasAddLeave": {
+            "type": "boolean",
+            "description": "是否可新增請假資料",
+            "nullable": true
+          },
+          "hasEditLeave": {
+            "type": "boolean",
+            "description": "是否可編輯請假資料",
+            "nullable": true
+          },
+          "hasDeleteLeave": {
+            "type": "boolean",
+            "description": "是否可刪除請假資料",
+            "nullable": true
+          },
+          "hasReadLeave": {
+            "type": "boolean",
+            "description": "是否可查詢請假資料",
+            "nullable": true
+          },
+          "hasReviewLeave": {
+            "type": "boolean",
+            "description": "是否可審核請假資料",
+            "nullable": true
+          },
+          "hasAddMaintenance": {
+            "type": "boolean",
+            "description": "是否可新增維運專案資料",
+            "nullable": true
+          },
+          "hasEditMaintenance": {
+            "type": "boolean",
+            "description": "是否可編輯維運專案資料",
+            "nullable": true
+          },
+          "hasDeleteMaintenance": {
+            "type": "boolean",
+            "description": "是否可刪除維運專案資料",
+            "nullable": true
+          },
+          "hasReadMaintenance": {
+            "type": "boolean",
+            "description": "是否可查詢維運專案資料",
+            "nullable": true
+          },
+          "hasAddMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可新增維運紀錄",
+            "nullable": true
+          },
+          "hasEditMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可編輯維運紀錄",
+            "nullable": true
+          },
+          "hasDeleteMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可刪除維運紀錄",
+            "nullable": true
+          },
+          "hasReadMaintenanceLog": {
+            "type": "boolean",
+            "description": "是否可查詢維運紀錄",
+            "nullable": true
+          },
+          "hasAddRole": {
+            "type": "boolean",
+            "description": "是否可新增角色",
+            "nullable": true
+          },
+          "hasEditRole": {
+            "type": "boolean",
+            "description": "是否可編輯角色",
+            "nullable": true
+          },
+          "hasDeleteRole": {
+            "type": "boolean",
+            "description": "是否可刪除角色",
+            "nullable": true
+          },
+          "hasReadRole": {
+            "type": "boolean",
+            "description": "是否可查看角色列表",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "角色 ID。",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "SelectOptionDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "description": "選項的值，支援多種類型 (int、string、GUID 等)。",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "選項顯示名稱。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用下拉選單選項 DTO，包含 Id 和顯示名稱。\r\nId 可動態為 int、string、GUID 等，適用於多種資料類型。"
+      },
+      "SelectOptionDtoResponseList": {
+        "type": "object",
+        "properties": {
+          "list": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SelectOptionDto"
+            },
+            "description": "當前頁面的資料列表。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "資料回應物件，封裝列表資料。"
+      },
+      "SelectOptionDtoResponseListApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/SelectOptionDtoResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "TokenResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "description": "JWT 認證令牌，用於前端進行後續的驗證操作。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於回傳 JWT Token 的資料傳輸物件 (DTO)，\r\n通常於登入成功後提供前端使用。"
+      },
+      "TokenResponseApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/TokenResponse"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "UploadManyDto": {
+        "required": [
+          "file"
+        ],
+        "type": "object",
+        "properties": {
+          "file": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "binary"
+            },
+            "description": "要上傳的檔案集合。",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false,
+        "description": "用於接收多個檔案上傳的資料傳輸物件（DTO）。"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}
