@@ -1115,7 +1115,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ObjectApiResponse"
+                  "$ref": "#/components/schemas/MaintenanceLogGetOneDtoApiResponse"
                 }
               }
             }
@@ -2814,6 +2814,85 @@
           },
           "data": {
             "$ref": "#/components/schemas/MaintenanceLogGetAllDtoPagedResponseList"
+          }
+        },
+        "additionalProperties": false,
+        "description": "通用 API 回應格式。"
+      },
+      "MaintenanceLogGetOneDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "維護紀錄ID",
+            "format": "int32"
+          },
+          "projectId": {
+            "type": "integer",
+            "description": "維護專案ID",
+            "format": "int32"
+          },
+          "category": {
+            "type": "integer",
+            "description": "維護類型",
+            "format": "int32"
+          },
+          "status": {
+            "type": "integer",
+            "description": "處理狀態",
+            "format": "int32"
+          },
+          "repairDate": {
+            "type": "string",
+            "description": "維護日期 (格式: yyyy-MM-dd 或其他)",
+            "nullable": true
+          },
+          "issue": {
+            "type": "string",
+            "description": "問題描述",
+            "nullable": true
+          },
+          "content": {
+            "type": "string",
+            "description": "維護內容",
+            "nullable": true
+          },
+          "files": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/FileResponse"
+            },
+            "description": "附件檔案列表",
+            "nullable": true
+          },
+          "empId": {
+            "type": "integer",
+            "description": "維護人員ID",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false,
+        "description": "單筆維護紀錄資料傳輸物件"
+      },
+      "MaintenanceLogGetOneDtoApiResponse": {
+        "type": "object",
+        "properties": {
+          "isSuccess": {
+            "type": "boolean",
+            "description": "是否成功"
+          },
+          "code": {
+            "type": "integer",
+            "description": "狀態碼",
+            "format": "int32"
+          },
+          "message": {
+            "type": "string",
+            "description": "回應訊息",
+            "nullable": true
+          },
+          "data": {
+            "$ref": "#/components/schemas/MaintenanceLogGetOneDto"
           }
         },
         "additionalProperties": false,
